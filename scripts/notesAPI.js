@@ -37,13 +37,3 @@ export default function NotesAPI() {
     deleteNote,
   };
 }
-
-const app = NotesAPI();
-
-// app.deleteNote(989145);
-// app.updateNote({
-//   title: "Mashalla",
-//   description: "I learnt something today",
-//   id: 713990,
-// });
-console.log(app.getNotes());
