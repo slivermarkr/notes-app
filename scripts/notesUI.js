@@ -4,6 +4,16 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
 
   root.appendChild(sidebarDiv);
   root.appendChild(previewDiv);
+
+  const notesList = root.querySelector(".notesList");
+  const addBtn = root.querySelector(".notesAdd");
+
+  addBtn.addEventListener("click", (e) => {
+    onAdd();
+  });
+
+  const note = createNotesListItem("Today", "Is gonna be the day", new Date());
+  notesList.appendChild(note);
 }
 
 function sideBar() {
@@ -22,21 +32,32 @@ function sideBar() {
 
   return sidebarDiv;
 }
-function createNotesListItem(titleParams, descriptionParams, dateParams) {
+function createNotesListItem(
+  titleParams,
+  descriptionParams,
+  dateParams,
+  idIndex
+) {
+  const MAX_BODY_LENGTH = 60;
   const wrapper = document.createElement("div");
   const title = document.createElement("div");
   const description = document.createElement("div");
   const date = document.createElement("div");
 
+  wrapper.setAttribute("data-id", idIndex);
   wrapper.classList.add("notesListItem");
   title.classList.add("notesSmallTitle");
   description.classList.add("notesSmallBody");
   date.classList.add("notesSmallUpdated");
 
   title.textContent = titleParams;
-  description.textContent = descriptionParams;
-  date.textContent = dateParams;
+  description.textContent = `${descriptionParams.substring(0, MAX_BODY_LENGTH)}
+  ${descriptionParams.length > MAX_BODY_LENGTH ? "..." : ""}`;
 
+  date.textContent = dateParams.toLocaleString(undefined, {
+    dateStyle: "full",
+    timeStyle: "short",
+  });
   wrapper.appendChild(title);
   wrapper.appendChild(description);
   wrapper.appendChild(date);
