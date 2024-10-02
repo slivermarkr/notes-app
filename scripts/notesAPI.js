@@ -3,7 +3,7 @@ export default function NotesAPI() {
 
   const getNotes = () => {
     return notesList.sort((a, b) => {
-      new Date(a.update) > new Date(b.update) ? -1 : 1;
+      new Date(a.update) < new Date(b.update) ? -1 : 1;
     });
   };
 

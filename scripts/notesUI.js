@@ -21,33 +21,29 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
     });
   });
 
-  console.log(descriptionInp);
-  // const note = createNotesListItem(
-  //   "Today",
-  //   "Is gonna be the day",
-  //   new Date(),
-  //   1
-  // );
-  // const note2 = createNotesListItem(
-  //   "Today",
-  //   "Is gonna be the day",
-  //   new Date(),
-  //   2
-  // );
-  // const note3 = createNotesListItem(
-  //   "Today",
-  //   "Is gonna be the day",
-  //   new Date(),
-  //   3
-  // );
-  // notesList.appendChild(note);
-  // notesList.appendChild(note2);
-  // notesList.appendChild(note3);
-  // root.querySelectorAll(".notesListItem").forEach((noteItem) => {
-  //   noteItem.addEventListener("click", (e) => {
-  //     onSelect(noteItem.dataset.id);
-  //    });
-  //   });
+  function updateNotesList(notesParams) {
+    notesParams.forEach((notes) => {
+      const noteItem = createNotesListItem(
+        notes.title,
+        notes.description,
+        notes.update,
+        notes.id
+      );
+
+      noteItem.addEventListener("click", () => {
+        onSelect(+noteItem.dataset.id);
+      });
+      noteItem.addEventListener("dblclick", () => {
+        onDelete(+noteItem.dataset.id);
+      });
+      console.log(noteItem);
+
+      notesList.appendChild(noteItem);
+    });
+  }
+  return {
+    updateNotesList,
+  };
 }
 
 function sideBar() {
