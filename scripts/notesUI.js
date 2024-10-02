@@ -7,13 +7,47 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
 
   const notesList = root.querySelector(".notesList");
   const addBtn = root.querySelector(".notesAdd");
-
+  const titleInp = root.querySelector(".notesTitle");
+  const descriptionInp = root.querySelector(".notesBody");
   addBtn.addEventListener("click", (e) => {
     onAdd();
   });
 
-  const note = createNotesListItem("Today", "Is gonna be the day", new Date());
-  notesList.appendChild(note);
+  [titleInp, descriptionInp].forEach((inputElement) => {
+    inputElement.addEventListener("blur", (e) => {
+      const title = titleInp.value.trim();
+      const description = descriptionInp.value.trim();
+      onEdit(title, description);
+    });
+  });
+
+  console.log(descriptionInp);
+  // const note = createNotesListItem(
+  //   "Today",
+  //   "Is gonna be the day",
+  //   new Date(),
+  //   1
+  // );
+  // const note2 = createNotesListItem(
+  //   "Today",
+  //   "Is gonna be the day",
+  //   new Date(),
+  //   2
+  // );
+  // const note3 = createNotesListItem(
+  //   "Today",
+  //   "Is gonna be the day",
+  //   new Date(),
+  //   3
+  // );
+  // notesList.appendChild(note);
+  // notesList.appendChild(note2);
+  // notesList.appendChild(note3);
+  // root.querySelectorAll(".notesListItem").forEach((noteItem) => {
+  //   noteItem.addEventListener("click", (e) => {
+  //     onSelect(noteItem.dataset.id);
+  //    });
+  //   });
 }
 
 function sideBar() {
