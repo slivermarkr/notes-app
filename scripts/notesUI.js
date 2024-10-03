@@ -45,8 +45,21 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
       });
     });
   }
+  // update the selected note and apply distinction
+  function updateSelectedNote(note) {
+    titleInp.value = note.title;
+    descriptionInp.value = note.description;
+
+    root.querySelectorAll(".notesListItem").forEach((notesItem) => {
+      notesItem.classList.remove("notesListItem-selected");
+    });
+    root
+      .querySelector(`.notesListItem[data-index="${note.id}"]`)
+      .classList.add("notesListItem-selected");
+  }
   return {
     updateNotesList,
+    updateSelectedNote,
   };
 }
 function sideBar() {
