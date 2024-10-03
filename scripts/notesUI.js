@@ -9,6 +9,7 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
   const addBtn = root.querySelector(".notesAdd");
   const titleInp = root.querySelector(".notesTitle");
   const descriptionInp = root.querySelector(".notesBody");
+
   addBtn.addEventListener("click", (e) => {
     onAdd();
   });
@@ -57,9 +58,16 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
       .querySelector(`.notesListItem[data-index="${note.id}"]`)
       .classList.add("notesListItem-selected");
   }
+
+  function updatePreviewVisibility(visible) {
+    previewDiv.style.visibility = visible ? "visible" : "hidden";
+  }
+
+  updatePreviewVisibility(false);
   return {
     updateNotesList,
     updateSelectedNote,
+    updatePreviewVisibility,
   };
 }
 function sideBar() {
@@ -86,7 +94,7 @@ function createNotesListItem(
 ) {
   const MAX_BODY_LENGTH = 60;
   return `
-          <div class="notesListItem notesListItem-selected"  data-index="${idIndex}" >
+          <div class="notesListItem"  data-index="${idIndex}" >
             <div class="notesSmallTitle">${titleParams}</div>
             <div class="notesSmallBody">${descriptionParams.substring(
               0,
