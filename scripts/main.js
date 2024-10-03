@@ -6,10 +6,29 @@ export default function main(root) {
   const ui = UI(root, methodHandler());
 
   const notes = api.getNotes();
+  let activeNoteItem = notes[0];
 
-  ui.updateNotesList(notes);
+  init();
+
+  function init() {
+    ui.updateNotesList(notes);
+    ui.updateSelectedNote(activeNoteItem);
+    visibility();
+  }
+
+  function visibility() {
+    notes.length === 0
+      ? ui.updatePreviewVisibility(false)
+      : ui.updatePreviewVisibility(true);
+  }
+
   function methodHandler() {
-    const onSelect = (selectedNote) => {};
+    const onSelect = (indexId) => {
+      const index = notes.findIndex((note) => note.id === indexId);
+      activeNoteItem = notes[index];
+      ui.updateSelectedNote(activeNoteItem);
+      ui.updatePreviewVisibility(true);
+    };
 
     const onEdit = (title, description) => {};
 
