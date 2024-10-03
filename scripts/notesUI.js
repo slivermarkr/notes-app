@@ -22,6 +22,8 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
   });
 
   function updateNotesList(notesParams) {
+    notesList.innerHTML = "";
+
     notesParams.forEach((notes) => {
       const noteItem = createNotesListItem(
         notes.title,
@@ -29,23 +31,24 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
         notes.update,
         notes.id
       );
-
-      noteItem.addEventListener("click", () => {
-        onSelect(+noteItem.dataset.id);
+      notesList.insertAdjacentHTML("beforeend", noteItem);
+    });
+    root.querySelectorAll(".notesListItem").forEach((notesItem) => {
+      notesItem.addEventListener("click", () => {
+        onSelect(+notesItem.dataset.index);
       });
-      noteItem.addEventListener("dblclick", () => {
-        onDelete(+noteItem.dataset.id);
+      notesItem.addEventListener("dbclick", () => {
+        const doDelete = confirm("Delete Notes?");
+        if (doDelete) {
+          onDelete(+notesItem.dataset.index);
+        }
       });
-      console.log(noteItem);
-
-      notesList.appendChild(noteItem);
     });
   }
   return {
     updateNotesList,
   };
 }
-
 function sideBar() {
   const sidebarDiv = document.createElement("div");
   const notesList = document.createElement("div");
@@ -69,30 +72,19 @@ function createNotesListItem(
   idIndex
 ) {
   const MAX_BODY_LENGTH = 60;
-  const wrapper = document.createElement("div");
-  const title = document.createElement("div");
-  const description = document.createElement("div");
-  const date = document.createElement("div");
-
-  wrapper.setAttribute("data-id", idIndex);
-  wrapper.classList.add("notesListItem");
-  title.classList.add("notesSmallTitle");
-  description.classList.add("notesSmallBody");
-  date.classList.add("notesSmallUpdated");
-
-  title.textContent = titleParams;
-  description.textContent = `${descriptionParams.substring(0, MAX_BODY_LENGTH)}
-  ${descriptionParams.length > MAX_BODY_LENGTH ? "..." : ""}`;
-
-  date.textContent = dateParams.toLocaleString(undefined, {
-    dateStyle: "full",
-    timeStyle: "short",
-  });
-  wrapper.appendChild(title);
-  wrapper.appendChild(description);
-  wrapper.appendChild(date);
-
-  return wrapper;
+  return `
+          <div class="notesListItem notesListItem-selected"  data-index="${idIndex}" >
+            <div class="notesSmallTitle">${titleParams}</div>
+            <div class="notesSmallBody">${descriptionParams.substring(
+              0,
+              MAX_BODY_LENGTH
+            )}${descriptionParams.length > MAX_BODY_LENGTH ? "..." : ""}</div>
+            <div class="notesSmallUpdated">${dateParams.toLocaleString(
+              undefined,
+              { dateStyle: "full", timeStyle: "short" }
+            )}</div>
+          </div>
+        </div>`;
 }
 function previewBar() {
   const notesPreviewWrapper = document.createElement("div");

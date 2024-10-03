@@ -1,6 +1,6 @@
 import NotesAPI from "./notesAPI.js";
 import NotesUI from "./notesUI.js";
-
+import Try from "./try.js";
 const root = document.querySelector("#app");
 const API = NotesAPI();
 const UI = NotesUI(root, {
@@ -18,11 +18,4 @@ const UI = NotesUI(root, {
   },
 });
 
-// API.updateNote({
-//   title: "Bitch get out the way",
-//   description: "Babaababababa",
-// });
-console.log(API.getNotes());
 UI.updateNotesList(API.getNotes());
-// const API = NotesAPI();
-// console.log(API.getNotes());
