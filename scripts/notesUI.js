@@ -29,7 +29,7 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
       const noteItem = createNotesListItem(
         notes.title,
         notes.description,
-        notes.update,
+        new Date(notes.update),
         notes.id
       );
       notesList.insertAdjacentHTML("beforeend", noteItem);
