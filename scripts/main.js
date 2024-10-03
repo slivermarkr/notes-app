@@ -38,10 +38,15 @@ export default function main(root) {
         description: "Enter text...",
       };
       api.addNote(newNote);
+      console.log(notes[notes.length - 1]);
+      activeNoteItem = notes[notes.length - 1];
       ui.updateNotesList(notes);
+      ui.updateSelectedNote(activeNoteItem);
     };
 
     const onDelete = (indexId) => {
+      api.deleteNote(indexId);
+      ui.updateNotesList(api.getNotes());
       visibility();
     };
     return {
