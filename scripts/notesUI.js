@@ -32,13 +32,13 @@ export default function UI(root, { onSelect, onEdit, onAdd, onDelete } = {}) {
         new Date(notes.update),
         notes.id
       );
-      notesList.insertAdjacentHTML("beforeend", noteItem);
+      notesList.insertAdjacentHTML("afterbegin", noteItem);
     });
     root.querySelectorAll(".notesListItem").forEach((notesItem) => {
       notesItem.addEventListener("click", () => {
         onSelect(+notesItem.dataset.index);
       });
-      notesItem.addEventListener("dbclick", () => {
+      notesItem.addEventListener("dblclick", () => {
         const doDelete = confirm("Delete Notes?");
         if (doDelete) {
           onDelete(+notesItem.dataset.index);
@@ -81,8 +81,8 @@ function sideBar() {
 
   addBtn.textContent = "Add Note";
 
-  sidebarDiv.appendChild(notesList);
   sidebarDiv.appendChild(addBtn);
+  sidebarDiv.appendChild(notesList);
 
   return sidebarDiv;
 }

@@ -41,7 +41,9 @@ export default function main(root) {
       ui.updateNotesList(notes);
     };
 
-    const onDelete = (indexId) => {};
+    const onDelete = (indexId) => {
+      visibility();
+    };
     return {
       onSelect,
       onEdit,
