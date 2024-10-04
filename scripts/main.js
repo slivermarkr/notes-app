@@ -5,37 +5,42 @@ export default function main(root) {
   const api = NotesAPI();
   const ui = UI(root, methodHandler());
 
-  const notes = api.getNotes();
-  let activeNoteItem = notes[notes.length - 1];
+  let notes = [];
+  let activeNoteItem = null;
 
-  init();
+  function refreshNotes() {
+    const notes = api.getNotes();
+    setNotes(notes);
 
-  function init() {
-    ui.updateNotesList(notes);
-    ui.updateSelectedNote(activeNoteItem);
-    visibility();
+    if (notes.length > 0) {
+      setActiveNote(notes[0]);
+    }
   }
 
-  function visibility() {
-    notes.length === 0
-      ? ui.updatePreviewVisibility(false)
-      : ui.updatePreviewVisibility(true);
+  function setActiveNote(activeNote) {
+    activeNoteItem = activeNote;
+    ui.updateSelectedNote(activeNote);
+  }
+
+  function setNotes(notes) {
+    notes = notes;
+    ui.updateNotesList(notes);
+    ui.updatePreviewVisibility(notes.length > 0);
   }
 
   function methodHandler() {
     const onSelect = (indexId) => {
-      const index = notes.findIndex((note) => note.id === indexId);
-      activeNoteItem = notes[index];
-      ui.updateSelectedNote(activeNoteItem);
-      ui.updatePreviewVisibility(true);
+      const note = notes.find((note) => note.id === indexId);
+      setActiveNote(note);
     };
 
     const onEdit = (title, description) => {
-      activeNoteItem.title = title;
-      activeNoteItem.description = description;
-      api.addNote(activeNoteItem);
-      ui.updateNotesList(notes);
-      ui.updateSelectedNote(activeNoteItem);
+      api.addNote({
+        id: activeNoteItem.id,
+        title,
+        description,
+      });
+      refreshNotes();
     };
 
     const onAdd = () => {
@@ -44,16 +49,12 @@ export default function main(root) {
         description: "Enter text...",
       };
       api.addNote(newNote);
-      console.log(notes[notes.length - 1]);
-      activeNoteItem = notes[notes.length - 1];
-      ui.updateNotesList(notes);
-      ui.updateSelectedNote(activeNoteItem);
+      refreshNotes();
     };
 
     const onDelete = (indexId) => {
       api.deleteNote(indexId);
-      ui.updateNotesList(api.getNotes());
-      visibility();
+      refreshNotes();
     };
     return {
       onSelect,

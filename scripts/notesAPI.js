@@ -1,5 +1,5 @@
 export default function NotesAPI() {
-  let notesList = JSON.parse(localStorage.getItem("notes")) || [];
+  let notesList = JSON.parse(localStorage.getItem("notes") || []);
 
   const getNotes = () => {
     return notesList.sort((a, b) => {
