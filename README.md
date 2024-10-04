@@ -5,4 +5,4 @@ https://dcode.domenade.com/tutorials/build-a-notes-app-with-javascript-and-local
 
 live repo:https://slivermarkr.github.io/notes-app/
 
-![Alt text](Screenshot_2024-10-04_22-35-44.jpg "Optional Title")
+![Alt text](./Screenshot_2024-10-04_22-35-44.jpg)
