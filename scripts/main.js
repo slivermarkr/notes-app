@@ -7,13 +7,13 @@ export default function main(root) {
 
   let notes = [];
   let activeNoteItem = null;
-
+  refreshNotes();
   function refreshNotes() {
     const notes = api.getNotes();
     setNotes(notes);
 
     if (notes.length > 0) {
-      setActiveNote(notes[0]);
+      setActiveNote(notes[notes.length - 1]);
     }
   }
 
@@ -22,16 +22,19 @@ export default function main(root) {
     ui.updateSelectedNote(activeNote);
   }
 
-  function setNotes(notes) {
-    notes = notes;
-    ui.updateNotesList(notes);
-    ui.updatePreviewVisibility(notes.length > 0);
+  function setNotes(notesParams) {
+    notes = notesParams;
+    ui.updateNotesList(notesParams);
+    ui.updatePreviewVisibility(notesParams.length > 0);
   }
 
   function methodHandler() {
     const onSelect = (indexId) => {
-      const note = notes.find((note) => note.id === indexId);
-      setActiveNote(note);
+      const index = notes.findIndex((note) => note.id === indexId);
+      console.log(index);
+      console.log(indexId);
+      console.log(notes);
+      setActiveNote(notes[index]);
     };
 
     const onEdit = (title, description) => {
@@ -50,6 +53,7 @@ export default function main(root) {
       };
       api.addNote(newNote);
       refreshNotes();
+      setActiveNote(notes[notes.length - 1]);
     };
 
     const onDelete = (indexId) => {
