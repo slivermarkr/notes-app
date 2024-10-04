@@ -31,9 +31,6 @@ export default function main(root) {
   function methodHandler() {
     const onSelect = (indexId) => {
       const index = notes.findIndex((note) => note.id === indexId);
-      console.log(index);
-      console.log(indexId);
-      console.log(notes);
       setActiveNote(notes[index]);
     };
 
